@@ -1,0 +1,26 @@
+FROM i066088/sles11sp3-dev
+MAINTAINER andy "i066088.b1.sap@gmail.com"
+#COPY hanaclient /home/installer/hanaclient
+
+RUN zypper -n install zlib-devel
+RUN zypper -n install libopenssl-devel
+RUN zypper -n install libssh2-devel
+
+RUN mkdir -p /home/curl_build
+COPY curl-7.61.0.tar.gz /home/curl_build
+
+WORKDIR /home/curl_build
+ADD https://curl.haxx.se/download/curl-7.60.0.tar.gz  .
+RUN tar xzvf curl-7.60.0.tar.gz
+RUN cd curl-7.60.0 && ./configure --with-libssh2 && make install
+
+RUN mkdir -p /home/curl_build/output/curl/include
+RUN mkdir -p /home/curl_build/output/curl/lib-x64
+WORKDIR /home/curl_build/output/curl
+
+RUN cp -r /usr/local/include/curl/* ./include/
+RUN cp -rpfl  /usr/local/lib/* ./lib-x64/
+
+RUN echo "OK"
+
+CMD ["/bin/sh"]
