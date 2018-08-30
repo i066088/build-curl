@@ -1,6 +1,5 @@
 FROM i066088/sles11sp3-dev
 MAINTAINER andy "i066088.b1.sap@gmail.com"
-#COPY hanaclient /home/installer/hanaclient
 
 RUN zypper -n install zlib-devel
 RUN zypper -n install libopenssl-devel
